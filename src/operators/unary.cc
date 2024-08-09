@@ -1,4 +1,6 @@
 #include "operators/unary.h"
+#include "core/data_type.h"
+#include <cstddef>
 
 namespace infini
 {
@@ -39,7 +41,11 @@ namespace infini
         // TODO：返回经过 clip 操作后的 shape
         // REF: https://onnx.ai/onnx/operators/onnx__Clip.html#clip-13
         // =================================== 作业 ===================================
-        return std::nullopt;
+        vector<Shape> shape;
+        for(auto tensor : inputs){
+            shape.push_back(tensor->getDims());
+        }
+        return shape;
     }
 
     std::string ClipObj::toString() const
@@ -66,7 +72,11 @@ namespace infini
         // REF_FILE: src/core/operator.cc
         // REF: https://onnx.ai/onnx/operators/onnx__Cast.html#cast-21
         // =================================== 作业 ===================================
-        return {};
+        vector<DataType> types;
+        for(size_t i = 0;i < inputs.size();i++){
+            types.push_back(getOutputDataType());
+        }
+        return types;
     }
 
     optional<vector<Shape>> CastObj::inferShape(const TensorVec &inputs)
@@ -75,7 +85,11 @@ namespace infini
         // TODO：返回经过 cast 操作后的 shape
         // REF: https://onnx.ai/onnx/operators/onnx__Cast.html#cast-21
         // =================================== 作业 ===================================
-        return std::nullopt;
+        vector<Shape> shape;
+        for(auto tensor : inputs){
+            shape.push_back(tensor->getDims());
+        }
+        return shape;
     }
 
     std::string CastObj::toString() const
