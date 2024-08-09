@@ -1,4 +1,5 @@
 #include "operators/transpose.h"
+#include <cstddef>
 
 namespace infini
 {
@@ -33,8 +34,11 @@ namespace infini
         // TODO：修改 output_dim，返回正确的 transpose 后的 shape
         // REF: https://onnx.ai/onnx/operators/onnx__Transpose.html#transpose-21
         // =================================== 作业 ===================================
+        for(int i = 0;i < rank;i++){
+            output_dim[i] = input_dim[transposePermute[i]];
+        }
 
-        return std::nullopt;
+        return vector({output_dim});
     }
 
     std::string TransposeObj::toString() const
